@@ -1,6 +1,8 @@
 package org.dynalogic.webchat;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -24,7 +26,7 @@ public class Server
 		return true;
 	}
 	
-	private static void send() throws IOException
+	private static String send() throws IOException
 	{
 		 StringBuilder postData = new StringBuilder();
 		 for (Map.Entry<String,Object> param : postPayload.entrySet()) {
@@ -35,11 +37,23 @@ public class Server
 	        }
 		 conn.getOutputStream().write(postData.toString().getBytes("UTF-8"));
 		 postPayload.clear();
+		 BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			String line;
+			String output = null;
+			while((line = rd.readLine()) != null)
+			{
+				output+=line;
+			}
+			//wr.close();
+			rd.close();
+			return output;
+
 	}
 	
-	public static String join(String username)
+	public static String join(String username) throws IOException
 	{
 		postPayload.put("request","user_join");
 		postPayload.put("name", username);
-		return "";
+		return send();
 	}
+}
