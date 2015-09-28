@@ -1,0 +1,25 @@
+<HTML>
+	<head>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		<script src="ClientLogic.js"></script>
+		<link rel="stylesheet" type="text/css" href="stylesheet.css">
+	</head>
+	<body>
+		<div id="login" class="LoginMenu">
+			<h3>Login</h3>
+			<p>you must select a username before you begin conversing</p>
+			<input type="text" id="userName" placeholder="Name"></input>
+		<input type="submit" id="selectUserName" value="go"></input>
+		</div>
+		<div id="main" class="MainMenu" hidden>
+			<p id="console"></p>
+			<input type="text" id="text" placeholder="Chat Here..." style="length:30px;"/>
+			<input type="button" id="submit" value="Send"/>
+			<input type="button" id="update" value="updateLog"/>
+			<div id="userList">
+				<h3>Users:</h3>
+				<p id="users"></p>
+			</div>
+		</div>
+	</body>
+</HTML>
