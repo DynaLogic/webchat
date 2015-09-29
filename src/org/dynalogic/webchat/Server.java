@@ -9,9 +9,13 @@ import java.net.URLEncoder;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class Server
-{
-    static Map<String,Object> postPayload;
+public class Server{
+    public static String getUsername() {
+        return username;
+    }
+
+    private static String username = null;
+    private static Map<String,Object> postPayload;
     private static HttpURLConnection conn;
 
     /**
@@ -42,8 +46,9 @@ public class Server
      * send the `postPayload` HashMap to the server
      * @return JSON encoded server response
      */
-    private static String send()
+    private static String send(String request)
     {
+        postPayload.put("request",request);
          StringBuilder postData = new StringBuilder();
         try {
          for (Map.Entry<String,Object> param : postPayload.entrySet()) {
@@ -76,14 +81,14 @@ public class Server
 
     /**
      * sends the server a request to join as `username`
-     * @param username the username to connect as
+     * @param uname the username to connect as
      * @return JSON encoded server response
      */
-    public static String join(String username)
+    public static String join(String uname)
     {
-        postPayload.put("request", "user_join");
-        postPayload.put("name", username);
-        return send();
+        postPayload.put("name", uname);
+        username = uname;
+        return send("user_join");
 
     }
 
@@ -91,9 +96,36 @@ public class Server
      * poll the server to update the newest version of the log
      * @return JSON encoded return from the server
      */
-    public static String getlog(){
-
-        postPayload.put("request", "update_log");
-        return send();
+    public static String getlog()
+    {
+        return send("poll_log");
     }
+
+    /**
+     * return a list of users
+     * @return JSON encoded server response
+     */
+    public static String getUserList()
+    {
+        return send("list_users");
+    }
+
+    /**
+     *
+     * @param message message to send
+     * @return JSON encoded server response
+     */
+    public static String sendMessage(String message)
+    {
+        postPayload.put("text",message);
+        postPayload.put("name",username);
+        return send("update_log");
+    }
+
+    public static String leave()
+    {
+        postPayload.put("name",username);
+        return send("user_leave");
+    }
+
 }
