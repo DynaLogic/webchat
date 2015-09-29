@@ -13,7 +13,9 @@ public class Server{
     public static String getUsername() {
         return username;
     }
+    public static String getServerName() {return serverName;}
 
+    private static String serverName = "http://logan.waldman.ro/Chat/ServerLogic.php";
     private static String username = null;
     private static Map<String,Object> postPayload;
     private static HttpURLConnection conn;
@@ -26,7 +28,7 @@ public class Server{
     {
         try {
             postPayload = new LinkedHashMap<>();
-            URL website = new URL("http://logan.waldman.ro/Chat/ServerLogic.php");
+            URL website = new URL(serverName);
             conn = (HttpURLConnection) website.openConnection();
             conn.setDoOutput(true);
             conn.setRequestMethod("POST");
