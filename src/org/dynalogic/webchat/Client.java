@@ -1,7 +1,5 @@
 package org.dynalogic.webchat;
 
-import javafx.beans.property.adapter.JavaBeanObjectProperty;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -12,6 +10,7 @@ public class Client {
     JButton exit = new JButton("Exit");
     JButton connect = new JButton("Connect!");
     JButton changeServer = new JButton("Change Server");
+    JTextArea output = new JTextArea();
 
     static String serverName = "http://logan.waldman.ro/Chat/ServerLogic.php";
     final static boolean shouldFill = true;
@@ -22,7 +21,7 @@ public class Client {
         if (RIGHT_TO_LEFT) {
             pane.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
         }
-
+        output.setEditable(false);
         JButton button = new JButton("Ass");
         pane.setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
@@ -53,14 +52,14 @@ public class Client {
         constraints.gridy = 0;
         pane.add(button, constraints);
 
-        button = new JButton("Long-Named Button 4");
+        //button = new JButton("Long-Named Button 4");
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.ipady = 40;      //make this component tall
         constraints.weightx = 0.0;
-        constraints.gridwidth = 3;
+        constraints.gridwidth = 5;
         constraints.gridx = 0;
         constraints.gridy = 1;
-        pane.add(button, constraints);
+        pane.add(output, constraints);
 
 
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -81,6 +80,16 @@ public class Client {
         addEventListners(frame);
         frame.pack();
         frame.setVisible(true);
+        while(true)
+        {
+        	update(frame);
+        	try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
     }
 
     public static void main(String[] args) {
@@ -101,5 +110,11 @@ public class Client {
                 System.out.println("New Server: "+output);
             }
         });
+    }
+    
+    private void update(Container frame)
+    {
+    	frame.revalidate();
+    	frame.repaint();
     }
 }
