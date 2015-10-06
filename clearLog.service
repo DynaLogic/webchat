@@ -1,0 +1,9 @@
+[Unit]
+Description=Clears the chat log
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/clearLog.sh
+
+[Install]
+RequiredBy=multi-user.target
